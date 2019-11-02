@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">DE Numerical Methods</string>
+    <string name="numerical_methods">Numerical Methods</string>
+    <string name="enter_x0">x0</string>
+    <string name="y0">y0</string>
+    <string name="n">N</string>
+    <string name="x_big">X</string>
+    <string name="calculate">Calculate</string>
+    <string name="initial_value_of_x">Initial value of x</string>
+    <string name="initial_value_of_y">Initial value of y</string>
+    <string name="the_final_x">The final X</string>
+    <string name="the_number_of_steps">The number of steps</string>
+</resources>
