@@ -3,19 +3,14 @@ package com.bakhanov.denumericalmethods
 import com.github.mikephil.charting.data.Entry
 import java.io.Serializable
 
-class Solution (x0: Double, x: Double, val n: Int) : Serializable {
-    val exactSolution: ArrayList<Double>
-    val numericalSolution: ArrayList<Double>
-    val globalErrors: ArrayList<Double>
-    val localErrors: ArrayList<Double>
+class Solution (x0: Double, x: Double, private val n: Int) : Serializable {
+    val exactSolution: ArrayList<Double> = ArrayList(n + 1)
+    val numericalSolution: ArrayList<Double> = ArrayList(n + 1)
+    val globalErrors: ArrayList<Double> = ArrayList(n + 1)
+    val localErrors: ArrayList<Double> = ArrayList(n + 1)
     val x: ArrayList<Double>
 
     init {
-        this.exactSolution = ArrayList(n + 1)
-        this.numericalSolution = ArrayList(n + 1)
-        this.globalErrors = ArrayList(n + 1)
-        this.localErrors = ArrayList(n + 1)
-
         localErrors.add(0.0)
         globalErrors.add(0.0)
 

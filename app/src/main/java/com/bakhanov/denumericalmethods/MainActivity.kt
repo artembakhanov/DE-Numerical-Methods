@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
         {x, y -> y - pow(x, 2.0)},
         {x, c -> pow(x, 2.0) + c},
         { true })
-    val em = EulerMethod(eq)
-    var solution: Solution? = null
+    private val em = EulerMethod(eq)
+    private var solution: Solution? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
