@@ -1,11 +1,13 @@
-package com.bakhanov.denumericalmethods
+package com.bakhanov.denumericalmethods.NumericalMethods
 
 import java.util.ArrayList
 
-abstract class IterativeMethod(override val equation: Equation) : NumericalMethod{
+abstract class IterativeMethod(override val equation: Equation) :
+    NumericalMethod {
     private var y: ArrayList<Double> = ArrayList(42)
     protected var step: Double = 42.0
-    private var solution: Solution = Solution(0.0, 0.0, 0)
+    private var solution: Solution =
+        Solution(0.0, 0.0, 0)
 
     protected abstract fun next(xi: Double, yi: Double): Double
 
@@ -19,8 +21,12 @@ abstract class IterativeMethod(override val equation: Equation) : NumericalMetho
      *
      */
     override fun compute(x0: Double, y0: Double, x: Double, n: Int): Solution {
-        if (x0 >= x) throw NumericalMethodException("The initial x value should be less than the final one.")
-        if (n <= 0) throw NumericalMethodException("The number of steps should be greater than 0")
+        if (x0 >= x) throw NumericalMethodException(
+            "The initial x value should be less than the final one."
+        )
+        if (n <= 0) throw NumericalMethodException(
+            "The number of steps should be greater than 0"
+        )
 
         setVals(x0, x, n)
         computeExactSolution(x0, y0, n)

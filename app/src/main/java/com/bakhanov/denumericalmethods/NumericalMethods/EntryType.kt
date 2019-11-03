@@ -1,4 +1,4 @@
-package com.bakhanov.denumericalmethods
+package com.bakhanov.denumericalmethods.NumericalMethods
 
 /**
  * This enumeration represents different types of entries.

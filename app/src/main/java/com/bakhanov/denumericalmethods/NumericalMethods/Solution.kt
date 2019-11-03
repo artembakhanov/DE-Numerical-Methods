@@ -1,5 +1,6 @@
-package com.bakhanov.denumericalmethods
+package com.bakhanov.denumericalmethods.NumericalMethods
 
+import com.bakhanov.denumericalmethods.NumericalMethods.EntryType
 import com.github.mikephil.charting.data.Entry
 import java.io.Serializable
 
