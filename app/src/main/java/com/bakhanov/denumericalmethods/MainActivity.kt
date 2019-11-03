@@ -1,20 +1,16 @@
 package com.bakhanov.denumericalmethods
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Toast
-import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.components.Description
+import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Math.pow
-import kotlin.math.*
 
 class MainActivity : AppCompatActivity() {
-    val eq = Equation(
+    private val eq = Equation(
         {x, _ -> 2 * x},
         {x, y -> y - pow(x, 2.0)},
         {x, c -> pow(x, 2.0) + c},
