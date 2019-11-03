@@ -6,8 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.bottom_sheet.*
+import kotlinx.android.synthetic.main.main_content.*
 import java.lang.Math.pow
+import kotlin.NumberFormatException
 
 class MainActivity : AppCompatActivity() {
     private val eq = Equation(
@@ -21,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         calculate_button.setOnClickListener {
             try {
                 val x0 = x0_edit.text.toString().toDouble()
@@ -33,7 +38,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please, enter valid numbers", Toast.LENGTH_LONG).show()
             }
         }
-
         chart_sol.setOnLongClickListener {
             chart_sol.zoom(0f, 0f, 0f, 0f)
             true
@@ -44,7 +48,16 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        chart_err.description.text = "Global and local errors"
+        val bottomSheetBehavior = BottomSheetBehavior.from(include_bottom_sheet)
+        bottom_sheet_header.setOnClickListener {
+            bottomSheetBehavior.state = when(bottomSheetBehavior.state) {
+                STATE_EXPANDED -> STATE_COLLAPSED
+                STATE_COLLAPSED -> STATE_EXPANDED
+                else -> STATE_EXPANDED
+            }
+        }
+
+        chart_err.description.text = "Local errors"
         chart_sol.description.text = "Numerical and exact solutions"
 
         if (savedInstanceState != null) {
