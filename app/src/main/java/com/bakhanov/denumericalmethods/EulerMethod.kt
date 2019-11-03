@@ -2,12 +2,12 @@ package com.bakhanov.denumericalmethods
 
 import java.util.ArrayList
 
-class EulerMethod(override var equation: Equation) : NumMethod {
+class EulerMethod(override val equation: Equation) : NumMethod {
 
     private var currentX: Double = 42.0
     private var y: ArrayList<Double> = ArrayList(42)
     private var step: Double = 42.0
-    private var solution: Solution = Solution(42)
+    private var solution: Solution = Solution(0.0, 0.0, 0)
 
     /**
      * Computes the solution numerically.
@@ -34,27 +34,47 @@ class EulerMethod(override var equation: Equation) : NumMethod {
      */
     private fun computeExactSolution(x0: Double, y0: Double, n: Int) {
         val const = equation.const(x0, y0)
-        solution.exactSolution.add(Point(x0, y0))
+        solution.exactSolution.add(y0)
         for (i in 1..n) {
-            solution.exactSolution.add(Point(x0 + i * step, equation.solution(x0 + i * step, const)))
+            solution.exactSolution.add(equation.solution(x0 + i * step, const))
         }
     }
 
     private fun computeNumericalSolution(x0: Double, y0: Double, n: Int) {
         val sol = solution.numericalSolution
-        sol.add(Point(x0, y0))
+        val x = solution.x
+        sol.add(y0)
+        x.add(x0)
 
         for (i in 1..n) {
-            sol.add(Point(currentX + step,
-                sol[i - 1].y + step * equation.function(currentX, sol[i - 1].y)))
-            currentX += step
+            sol.add(sol[i - 1] + step * equation.function(x[i - 1], sol[i - 1]))
+            computeErrors(i)
         }
     }
 
+    /**
+     * Computes local and global errors
+     *
+     * @param i iteration number
+     */
+    private fun computeErrors(i: Int) {
+        val exactSol = solution.exactSolution
+        val numSol = solution.numericalSolution
+        val x = solution.x
+
+        solution.globalErrors.add(exactSol[i] - numSol[i])
+
+        val localSol = exactSol[i - 1] + step * equation.function(x[i - 1], exactSol[i - 1])
+        solution.localErrors.add(exactSol[i] - localSol)
+    }
+
+    /**
+     * Sets default values.
+     */
     private fun setVals(x0: Double, x: Double, n: Int) {
         currentX = x0
         y = ArrayList(n + 1)
-        solution = Solution(n)
+        solution = Solution(x0, x, n)
         step = (x - x0) / n
     }
 }
