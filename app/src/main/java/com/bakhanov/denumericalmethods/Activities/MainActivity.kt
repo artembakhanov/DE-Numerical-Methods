@@ -1,6 +1,6 @@
 package com.bakhanov.denumericalmethods.Activities
 
-import android.os.Bundle
+import  android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bakhanov.denumericalmethods.NumericalMethods.Equation
@@ -16,18 +16,21 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_sheet.*
 import kotlinx.android.synthetic.main.main_content.*
-import java.lang.Math.pow
+import java.lang.Math.*
 import kotlin.NumberFormatException
 import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
     private val eq = Equation(
-        { x, _ -> 2 * x },
-        { x, y -> y - pow(x, 2.0) },
-        { x, c -> pow(x, 2.0) + c },
-        { true })
+        { x, y -> x * (y - pow(y, 3.0)) },
+        { x, y -> (1 / pow(y, 2.0) - 1) * exp(pow(x, 2.0))},
+        { x, c -> 1 / sqrt(exp(-pow(x, 2.0)) * c + 1) },
+        { true },
+        { y -> y > 0 },
+        "y > 0 should be held")
 
     private val methodsNames = arrayListOf("Euler Method", "Improved Euler Method", "Runge-Kutta method")
+    private var unstableMethods = arrayListOf<String>()
     private val numMethods = arrayListOf<NumericalMethod>(
         EulerMethod(eq),
         ImprovedEulerMethod(eq),
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         calculate_button.setOnClickListener {
             try {
@@ -48,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                 val n = n_edit.text.toString().toInt()
                 val sol = spinner.selectedItemPosition
                 computeSolutions(x0, x, y0, n, sol)
-                drawFun(x0, y0, x, n)
+                drawFun()
             } catch (e: NumberFormatException) {
                 Toast.makeText(this, "Please, enter valid numbers", Toast.LENGTH_LONG).show()
             }
@@ -78,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState != null) {
             solution = savedInstanceState.get("solution") as HashMap<String, Solution>?
 
-            if (solution != null) drawFun(0.0, 0.0, 0.0, 0, false)
+            if (solution != null) drawFun()
         }
     }
 
@@ -95,16 +99,35 @@ class MainActivity : AppCompatActivity() {
         sol: Int
     ) {
         solution = HashMap()
+        unstableMethods = ArrayList()
+
+        try {
+            eq.compose(x0, y0, x, n)
+        } catch (e: NumericalMethodException) {
+            Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
+            return
+        }
+
         if (sol == 0) {
             for (i in 1..3) {
-                solution?.put(methodsNames[i - 1], numMethods[i - 1].compute(x0, y0, x, n))
+                try {
+                    solution?.put(methodsNames[i - 1], numMethods[i - 1].compute(x0, y0, x, n))
+                } catch (e: NumericalMethodException) {
+                    unstableMethods.add(methodsNames[i - 1])
+                }
             }
         } else {
             solution?.put(methodsNames[sol - 1], numMethods[sol - 1].compute(x0, y0, x, n))
         }
+
+        if (unstableMethods.size > 0)
+            Toast.makeText(this,
+                "The following methods seem to be unstable: ${unstableMethods.joinToString()}.\n" +
+                        "They are not computed",
+                Toast.LENGTH_LONG).show()
     }
 
-    private fun drawFun(x0: Double, y0: Double, x: Double, n: Int, recompute: Boolean = true) {
+    private fun drawFun() {
         //val solution = em.compute(0.0, 2.0, 10.0, 10000)
 
         val lineDataMethods = ArrayList<ILineDataSet>()
