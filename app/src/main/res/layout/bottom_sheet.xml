@@ -74,11 +74,11 @@
 
         <EditText
             android:id="@+id/x0_edit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/enter_x0"
-            android:inputType="number|numberDecimal"
+            android:inputType="number|numberDecimal|numberSigned"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="@id/guideline2"
@@ -87,33 +87,33 @@
 
         <EditText
             android:id="@+id/y0_edit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/y0"
-            android:inputType="number|numberDecimal"
+            android:inputType="number|numberDecimal|numberSigned"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/x0_edit" />
 
         <EditText
             android:id="@+id/x_edit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/x_big"
-            android:inputType="number|numberDecimal"
+            android:inputType="number|numberDecimal|numberSigned"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/y0_edit" />
 
         <EditText
             android:id="@+id/n_edit"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/n"
-            android:inputType="number|numberDecimal"
+            android:inputType="number|numberDecimal|numberSigned"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/x_edit" />
@@ -130,7 +130,7 @@
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:entries="@array/numerical_methods"
             app:layout_constraintLeft_toRightOf="@+id/guideline2"
@@ -142,6 +142,7 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@string/calculate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
