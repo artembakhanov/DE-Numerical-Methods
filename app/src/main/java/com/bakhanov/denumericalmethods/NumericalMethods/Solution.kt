@@ -3,7 +3,7 @@ package com.bakhanov.denumericalmethods.NumericalMethods
 import com.github.mikephil.charting.data.Entry
 import java.io.Serializable
 
-class Solution (x0: Double, x: Double, private val n: Int) : Serializable {
+class Solution(x0: Double, x: Double, private val n: Int) : Serializable {
     val exactSolution: ArrayList<Double> = ArrayList(n + 1)
     val numericalSolution: ArrayList<Double> = ArrayList(n + 1)
     val globalErrors: ArrayList<Double> = ArrayList(n + 1)

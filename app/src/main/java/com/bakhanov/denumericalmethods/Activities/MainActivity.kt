@@ -29,14 +29,7 @@ class MainActivity : AppCompatActivity() {
         { y -> y > 0 },
         "y > 0 should be held")
 
-    private val methodsNames = arrayListOf("Euler Method", "Improved Euler Method", "Runge-Kutta method")
-    private var unstableMethods = arrayListOf<String>()
-    private val numMethods = arrayListOf<NumericalMethod>(
-        EulerMethod(eq),
-        ImprovedEulerMethod(eq),
-        RungeKuttaMethod(eq)
-    )
-    private val colors = methodsNames.zip(arrayListOf(0x1e88e5, 0x43a047, 0xf4511e)).toMap()
+
 
     private var solution: HashMap<String, Solution>? = null
 
@@ -103,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 
         try {
             eq.compose(x0, y0, x, n)
-        } catch (e: NumericalMethodException) {
+        } catch (e: NMException) {
             Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
             return
         }
@@ -112,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             for (i in 1..3) {
                 try {
                     solution?.put(methodsNames[i - 1], numMethods[i - 1].compute(x0, y0, x, n))
-                } catch (e: NumericalMethodException) {
+                } catch (e: NMException) {
                     unstableMethods.add(methodsNames[i - 1])
                 }
             }
