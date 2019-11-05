@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
 
         chart_err.description.text = "Local errors"
         chart_sol.description.text = "Numerical and exact solutions"
+        chart_total_err.description.text = "Total Errors"
 
         if (savedInstanceState != null) {
             plotData = savedInstanceState.get("plotdata") as PlotData?
@@ -88,12 +89,14 @@ class MainActivity : AppCompatActivity() {
 
         chart_sol.data = LineData(plotData?.solutionPlotData)
         chart_err.data = LineData(plotData?.errorsPlotData)
+        chart_total_err.data = LineData(plotData?.totalErrors)
 
         if (plotData!!.unstableMethods.size > 0)
             Toast.makeText(this, "${plotData!!.unstableMethods.joinToString { it.mname() }} " +
-                    "seem to be unstable they are not drawn.", Toast.LENGTH_LONG).show()
+                    "seem to be unstable. They are not drawn.", Toast.LENGTH_LONG).show()
 
         chart_sol.animateX(300)
         chart_err.animateX(300)
+        chart_total_err.animateX(300)
     }
 }

@@ -3,19 +3,28 @@ package com.bakhanov.denumericalmethods.NumericalMethods
 import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException
 import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMStabilityException
 import kotlin.collections.ArrayList
+import kotlin.math.absoluteValue
 
 abstract class IterativeMethod(override val equation: Equation) :
     NumericalMethod {
     private var y: ArrayList<Double> = ArrayList(42)
     protected var step: Double = 42.0
-    private var solution: Solution =
-        Solution(0.0, 0.0, 0)
+    private lateinit var solution: Solution
 
     private var x0 = Double.NaN
     private var y0 = Double.NaN
     private var x = Double.NaN
     private var n = Int.MAX_VALUE
+    private var totalError = 0.0
 
+    /**
+     * Computes the next value depending on previous point.
+     *
+     * This function must be implemented separately for each method.
+     *
+     * @param xi previous x value
+     * @param yi previous y value
+     */
     protected abstract fun next(xi: Double, yi: Double): Double
 
     /**
@@ -25,8 +34,8 @@ abstract class IterativeMethod(override val equation: Equation) :
      * @param y0 initial y value
      * @param x x value where the method finishes
      * @param n the number of steps
-     * @param exactSolution predefined exact solution. Its size should be equal to n
-     *
+     * @param exactSolution predefined exact solution. Its size should be equal to n + 1
+     * @throws NMArgumentException if x0 >= x0 or n <= 0 or the size of exactSolution != n + 1
      */
     override fun compute(
         x0: Double,
@@ -48,10 +57,12 @@ abstract class IterativeMethod(override val equation: Equation) :
         else
             solution.exactSolution = exactSolution
 
-        if (exactSolution?.size != n + 1)
+        if (solution.exactSolution.size != n + 1)
             throw NMArgumentException("Exact solution size does not correspond to the number of points")
 
         computeNumericalSolution(x0, y0, n)
+
+        solution.totalError = totalError
 
         return solution
     }
@@ -95,17 +106,25 @@ abstract class IterativeMethod(override val equation: Equation) :
         computeLocalError(i)
     }
 
+    /**
+     * Computes global errors.
+     */
     private fun computeGlobalError(i: Int) {
         solution.globalErrors.add(solution.exactSolution[i] - solution.numericalSolution[i])
         if (solution.globalErrors[i].isNaN() || solution.globalErrors[i].isInfinite())
             throw NMStabilityException("This method seems to be unstable")
     }
 
+    /**
+     * Computes local errors (global error without accumulated global errors on previous steps).
+     */
     protected open fun computeLocalError(i: Int) {
         val y = solution.exactSolution
         val x = solution.x
         val localSol = next(x[i - 1], y[i - 1])
-        solution.localErrors.add(y[i] - localSol)
+        val localErr = y[i] - localSol
+        if (localErr.absoluteValue > totalError) totalError = localErr.absoluteValue
+        solution.localErrors.add(localErr)
     }
 
     /**
@@ -122,6 +141,7 @@ abstract class IterativeMethod(override val equation: Equation) :
         this.x = x
         this.n = n
 
+        totalError = 0.0
         y = ArrayList(this.n + 1)
         solution = Solution(this.x0, this.x, this.n)
         step = (this.x - this.x0) / this.n

@@ -10,7 +10,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 /**
  * This class unifies all the iterative methods.
  */
-class Solver(val equation: Equation) {
+class Solver(private val equation: Equation) {
     private var unstableMethods = arrayListOf<Method>()
     private val numMethods = arrayListOf<NumericalMethod>(
         EulerMethod(equation),
@@ -23,6 +23,7 @@ class Solver(val equation: Equation) {
     private lateinit var solutions: HashMap<Int, Solution>
     private lateinit var solutionPlotData: ArrayList<ILineDataSet>
     private lateinit var errorsPlotData: ArrayList<ILineDataSet>
+    private lateinit var totalErrorsPlotData: ArrayList<ILineDataSet>
     private var step: Double = 42.0
 
     /**
@@ -43,6 +44,7 @@ class Solver(val equation: Equation) {
         solutions = HashMap()
         solutionPlotData = ArrayList()
         errorsPlotData = ArrayList()
+        totalErrorsPlotData = ArrayList()
 
         computeExactSolution(x0, y0, n)
 
@@ -50,17 +52,19 @@ class Solver(val equation: Equation) {
             Method.ALL -> {
                 for (i in 0..2) {
                     addSolution(Method.from(i), x0, y0, x, n)
+                    addTotalErrors(Method.from(i), x0, y0, x, n)
                 }
             }
             else -> {
                 addSolution(method, x0, y0, x, n)
+                addTotalErrors(method, x0, y0, x, n)
             }
         }
-
 
         return PlotData(
             solutionPlotData,
             errorsPlotData,
+            totalErrorsPlotData,
             unstableMethods
         )
     }
@@ -85,7 +89,7 @@ class Solver(val equation: Equation) {
 
         val solutionDataSet = LineDataSet(exactSolutionDataSet,"Exact")
         solutionDataSet.setDrawCircles(false)
-        solutionDataSet.setColor(Method.ALL.color(), 255);
+        solutionDataSet.setColor(Method.ALL.color(), 255)
 
         solutionPlotData.add(solutionDataSet)
     }
@@ -113,4 +117,29 @@ class Solver(val equation: Equation) {
             unstableMethods.add(method)
         }
     }
+
+    private fun addTotalErrors(
+        method: Method,
+        x0: Double,
+        y0: Double,
+        x: Double,
+        n: Int
+    ) {
+        val totalErrors = ArrayList<Entry>()
+        for (i in 1..n) {
+            try {
+                totalErrors.add(Entry(
+                    i.toFloat(),
+                    numMethods[method.methodNumber].compute(x0, y0, x, i).totalError.toFloat()
+                ))
+            } catch (e: NMStabilityException) {}
+        }
+
+        val lineDataSet = LineDataSet(totalErrors, method.mname())
+        lineDataSet.setDrawCircles(false)
+        lineDataSet.setColor(method.color(), 255)
+
+        totalErrorsPlotData.add(lineDataSet)
+    }
+
 }

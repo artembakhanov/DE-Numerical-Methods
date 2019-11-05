@@ -5,6 +5,7 @@ import java.io.Serializable
 import kotlin.math.sign
 
 class Solution(x0: Double, x: Double, private val n: Int) : Serializable {
+    var totalError = 0.0
     var exactSolution: ArrayList<Double> = ArrayList(n + 1)
     val numericalSolution: ArrayList<Double> = ArrayList(n + 1)
     val globalErrors: ArrayList<Double> = ArrayList(n + 1)
@@ -38,7 +39,7 @@ class Solution(x0: Double, x: Double, private val n: Int) : Serializable {
         val es: ArrayList<Entry> = ArrayList(n + 1)
         for (i in 0..n) {
             var y = entryY[i].toFloat()
-            y = if (y.isInfinite()) y.sign * Float.MAX_VALUE else y
+            y = if (y.isInfinite()) y.sign * (Float.MAX_VALUE / 10) else y
             es.add(Entry(x[i].toFloat(), y))
         }
 
