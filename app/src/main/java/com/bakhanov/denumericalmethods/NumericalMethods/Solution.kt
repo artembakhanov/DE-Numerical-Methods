@@ -2,9 +2,10 @@ package com.bakhanov.denumericalmethods.NumericalMethods
 
 import com.github.mikephil.charting.data.Entry
 import java.io.Serializable
+import kotlin.math.sign
 
 class Solution(x0: Double, x: Double, private val n: Int) : Serializable {
-    val exactSolution: ArrayList<Double> = ArrayList(n + 1)
+    var exactSolution: ArrayList<Double> = ArrayList(n + 1)
     val numericalSolution: ArrayList<Double> = ArrayList(n + 1)
     val globalErrors: ArrayList<Double> = ArrayList(n + 1)
     val localErrors: ArrayList<Double> = ArrayList(n + 1)
@@ -36,7 +37,9 @@ class Solution(x0: Double, x: Double, private val n: Int) : Serializable {
         }
         val es: ArrayList<Entry> = ArrayList(n + 1)
         for (i in 0..n) {
-            es.add(Entry(x[i].toFloat(), entryY[i].toFloat()))
+            var y = entryY[i].toFloat()
+            y = if (y.isInfinite()) y.sign * Float.MAX_VALUE else y
+            es.add(Entry(x[i].toFloat(), y))
         }
 
         return es

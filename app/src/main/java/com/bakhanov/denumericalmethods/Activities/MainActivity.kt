@@ -4,12 +4,12 @@ import  android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bakhanov.denumericalmethods.NumericalMethods.Equation
-import com.bakhanov.denumericalmethods.NumericalMethods.*
+import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException
 import com.bakhanov.denumericalmethods.R
-import com.bakhanov.denumericalmethods.NumericalMethods.Solution
+import com.bakhanov.denumericalmethods.Solver.Method
+import com.bakhanov.denumericalmethods.Solver.PlotData
+import com.bakhanov.denumericalmethods.Solver.Solver
 import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.bottom_sheet.*
 import kotlinx.android.synthetic.main.main_content.*
 import java.lang.Math.*
 import kotlin.NumberFormatException
-import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
     private val eq = Equation(
@@ -28,10 +27,8 @@ class MainActivity : AppCompatActivity() {
         { true },
         { y -> y > 0 },
         "y > 0 should be held")
-
-
-
-    private var solution: HashMap<String, Solution>? = null
+    private var plotData: PlotData? = null
+    private var solver: Solver = Solver(eq)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +41,11 @@ class MainActivity : AppCompatActivity() {
                 val y0 = y0_edit.text.toString().toDouble()
                 val n = n_edit.text.toString().toInt()
                 val sol = spinner.selectedItemPosition
-                computeSolutions(x0, x, y0, n, sol)
-                drawFun()
+                drawFun(spinner.selectedItemPosition, x0, y0, x, n)
             } catch (e: NumberFormatException) {
                 Toast.makeText(this, "Please, enter valid numbers", Toast.LENGTH_LONG).show()
+            } catch (e: NMArgumentException) {
+                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
             }
         }
         chart_sol.setOnLongClickListener {
@@ -73,73 +71,27 @@ class MainActivity : AppCompatActivity() {
         chart_sol.description.text = "Numerical and exact solutions"
 
         if (savedInstanceState != null) {
-            solution = savedInstanceState.get("solution") as HashMap<String, Solution>?
+            plotData = savedInstanceState.get("plotdata") as PlotData?
 
-            if (solution != null) drawFun()
+            if (plotData != null) drawFun(recompute = false)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable("solution", solution)
+        outState.putSerializable("plotdata", plotData)
     }
 
-    fun computeSolutions(
-        x0: Double,
-        x: Double,
-        y0: Double,
-        n: Int,
-        sol: Int
-    ) {
-        solution = HashMap()
-        unstableMethods = ArrayList()
+    private fun drawFun(methodIndex: Int = 0, x0: Double = 0.0, y0: Double = 0.0, x: Double = 0.0, n: Int = 1, recompute: Boolean = true) {
+        if (recompute)
+            plotData = solver.generateSolutionPlotData(Method.from(methodIndex), x0, y0, x, n)
 
-        try {
-            eq.compose(x0, y0, x, n)
-        } catch (e: NMException) {
-            Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
-            return
-        }
+        chart_sol.data = LineData(plotData?.solutionPlotData)
+        chart_err.data = LineData(plotData?.errorsPlotData)
 
-        if (sol == 0) {
-            for (i in 1..3) {
-                try {
-                    solution?.put(methodsNames[i - 1], numMethods[i - 1].compute(x0, y0, x, n))
-                } catch (e: NMException) {
-                    unstableMethods.add(methodsNames[i - 1])
-                }
-            }
-        } else {
-            solution?.put(methodsNames[sol - 1], numMethods[sol - 1].compute(x0, y0, x, n))
-        }
-
-        if (unstableMethods.size > 0)
-            Toast.makeText(this,
-                "The following methods seem to be unstable: ${unstableMethods.joinToString()}.\n" +
-                        "They are not computed",
-                Toast.LENGTH_LONG).show()
-    }
-
-    private fun drawFun() {
-        //val solution = em.compute(0.0, 2.0, 10.0, 10000)
-
-        val lineDataMethods = ArrayList<ILineDataSet>()
-        val lineDataErrors = ArrayList<ILineDataSet>()
-
-        for ((key, value) in solution!!) {
-            val dataSetMethods = LineDataSet(value.getEntries(EntryType.NUMERICAL), key)
-            dataSetMethods.setDrawCircles(false)
-            dataSetMethods.setColor(colors[key] ?: error(0x8e24aa), 255)
-            lineDataMethods.add(dataSetMethods)
-
-            val dataSetErrors = LineDataSet(value.getEntries(EntryType.L_ERROR), "$key Error")
-            dataSetErrors.setDrawCircles(false)
-            dataSetErrors.setColor(colors[key] ?: error(0x8e24aa), 255)
-            lineDataErrors.add(dataSetErrors)
-        }
-
-        chart_sol.data = LineData(lineDataMethods)
-        chart_err.data = LineData(lineDataErrors)
+        if (plotData!!.unstableMethods.size > 0)
+            Toast.makeText(this, "${plotData!!.unstableMethods.joinToString { it.mname() }} " +
+                    "seem to be unstable they are not drawn.", Toast.LENGTH_LONG).show()
 
         chart_sol.animateX(300)
         chart_err.animateX(300)

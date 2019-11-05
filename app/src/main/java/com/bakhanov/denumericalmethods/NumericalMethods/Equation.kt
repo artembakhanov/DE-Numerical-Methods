@@ -1,5 +1,7 @@
 package com.bakhanov.denumericalmethods.NumericalMethods
 
+import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMException
+
 class Equation(val function: (x: Double, y: Double) -> Double,
                val const: (x: Double, y: Double) -> Double,
                val solution: (x: Double, c: Double) -> Double,
@@ -19,7 +21,9 @@ class Equation(val function: (x: Double, y: Double) -> Double,
         val xs = (0..n).toList().map { x0 + step * it }
 
         if (!(xs.all(includedPointsX) && includedPointsY(y0))) {
-            throw NMException(includedPointsDescription)
+            throw NMException(
+                includedPointsDescription
+            )
         }
     }
 }

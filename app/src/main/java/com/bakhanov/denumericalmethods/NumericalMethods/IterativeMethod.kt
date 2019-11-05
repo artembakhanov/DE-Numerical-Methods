@@ -1,5 +1,7 @@
 package com.bakhanov.denumericalmethods.NumericalMethods
 
+import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException
+import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMStabilityException
 import kotlin.collections.ArrayList
 
 abstract class IterativeMethod(override val equation: Equation) :
@@ -43,9 +45,11 @@ abstract class IterativeMethod(override val equation: Equation) :
 
         if (exactSolution == null)
             computeExactSolution(x0, y0, n)
+        else
+            solution.exactSolution = exactSolution
 
         if (exactSolution?.size != n + 1)
-            throw NMArgumentException("Exact solution size does not correspond to the number of steps")
+            throw NMArgumentException("Exact solution size does not correspond to the number of points")
 
         computeNumericalSolution(x0, y0, n)
 
@@ -71,9 +75,12 @@ abstract class IterativeMethod(override val equation: Equation) :
 
         for (i in 1..n) {
             val next = next(x[i - 1], y[i - 1])
-            y.add(next)
             if (next.isNaN())
-                throw NMStabilityException("This method seems to be unstable for the given parameters")
+                throw NMStabilityException(
+                    "This method seems to be unstable for the given parameters"
+                )
+
+            y.add(next)
             computeErrors(i)
         }
     }
@@ -90,6 +97,8 @@ abstract class IterativeMethod(override val equation: Equation) :
 
     private fun computeGlobalError(i: Int) {
         solution.globalErrors.add(solution.exactSolution[i] - solution.numericalSolution[i])
+        if (solution.globalErrors[i].isNaN() || solution.globalErrors[i].isInfinite())
+            throw NMStabilityException("This method seems to be unstable")
     }
 
     protected open fun computeLocalError(i: Int) {

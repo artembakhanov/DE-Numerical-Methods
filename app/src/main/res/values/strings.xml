@@ -12,9 +12,9 @@
     <string name="the_number_of_steps">The number of steps</string>
     <string name="methods">Methods</string>
     <string-array name="numerical_methods">
-        <item>All</item>
         <item>Euler Method</item>
         <item>Improved Euler Method</item>
         <item>Runge-Kutta method</item>
+        <item>All</item>
     </string-array>
 </resources>
