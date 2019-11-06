@@ -1,4 +1,6 @@
-package com.bakhanov.denumericalmethods.NumericalMethods
+package com.bakhanov.denumericalmethods.NumericalMethods.Methods
+
+import com.bakhanov.denumericalmethods.NumericalMethods.Equation
 
 class RungeKuttaMethod(override val equation: Equation) : IterativeMethod(equation) {
     override fun next(xi: Double, yi: Double): Double {

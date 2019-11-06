@@ -1,7 +1,9 @@
-package com.bakhanov.denumericalmethods.NumericalMethods
+package com.bakhanov.denumericalmethods.NumericalMethods.Methods
 
+import com.bakhanov.denumericalmethods.NumericalMethods.Equation
 import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException
 import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMStabilityException
+import com.bakhanov.denumericalmethods.NumericalMethods.Solution
 import kotlin.collections.ArrayList
 import kotlin.math.absoluteValue
 
@@ -143,7 +145,8 @@ abstract class IterativeMethod(override val equation: Equation) :
 
         totalError = 0.0
         y = ArrayList(this.n + 1)
-        solution = Solution(this.x0, this.x, this.n)
+        solution =
+            Solution(this.x0, this.x, this.n)
         step = (this.x - this.x0) / this.n
     }
 }

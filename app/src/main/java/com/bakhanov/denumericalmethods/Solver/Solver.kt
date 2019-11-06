@@ -3,6 +3,10 @@ package com.bakhanov.denumericalmethods.Solver
 import com.bakhanov.denumericalmethods.NumericalMethods.*
 import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException
 import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMStabilityException
+import com.bakhanov.denumericalmethods.NumericalMethods.Methods.EulerMethod
+import com.bakhanov.denumericalmethods.NumericalMethods.Methods.ImprovedEulerMethod
+import com.bakhanov.denumericalmethods.NumericalMethods.Methods.NumericalMethod
+import com.bakhanov.denumericalmethods.NumericalMethods.Methods.RungeKuttaMethod
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
