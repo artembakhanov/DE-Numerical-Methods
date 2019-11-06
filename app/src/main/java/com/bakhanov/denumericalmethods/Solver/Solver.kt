@@ -16,6 +16,10 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
  * This class unifies all the iterative methods.
  */
 class Solver(private val equation: Equation) {
+    private var x0: Double = 0.0
+    private var y0: Double = 0.0
+    private var x: Double = 0.0
+    private var n: Int = 0
     private var unstableMethods = arrayListOf<Method>()
     private val numMethods = arrayListOf<NumericalMethod>(
         EulerMethod(equation),
@@ -49,19 +53,23 @@ class Solver(private val equation: Equation) {
         solutionPlotData = ArrayList()
         errorsPlotData = ArrayList()
         totalErrorsPlotData = ArrayList()
+        this.x0 = x0
+        this.y0 = y0
+        this.n = n
+        this.x = x
 
-        computeExactSolution(x0, y0, n)
+        computeExactSolution()
 
         when (method) {
             Method.ALL -> {
                 for (i in 0..2) {
-                    addSolution(Method.from(i), x0, y0, x, n)
-                    addTotalErrors(Method.from(i), x0, y0, x, n)
+                    addSolution(Method.from(i))
+                    addTotalErrors(Method.from(i))
                 }
             }
             else -> {
-                addSolution(method, x0, y0, x, n)
-                addTotalErrors(method, x0, y0, x, n)
+                addSolution(method)
+                addTotalErrors(method)
             }
         }
 
@@ -79,7 +87,7 @@ class Solver(private val equation: Equation) {
      * This function is used for optimization, since all the methods calculates exact solutions
      * themselves.
      */
-    private fun computeExactSolution(x0: Double, y0: Double, n: Int) {
+    private fun computeExactSolution() {
         val const = equation.const(x0, y0)
         if (const.isNaN()) throw NMDomainException(equation.includedPointsDescription)
 
@@ -101,13 +109,7 @@ class Solver(private val equation: Equation) {
         solutionPlotData.add(solutionDataSet)
     }
 
-    private fun addSolution(
-        method: Method,
-        x0: Double,
-        y0: Double,
-        x: Double,
-        n: Int
-    ) {
+    private fun addSolution(method: Method) {
         try {
             val solution = numMethods[method.methodNumber].compute(x0, y0, x, n, exactSolution)
             val solutionDataSet = LineDataSet(solution.getEntries(EntryType.NUMERICAL), method.mname())
@@ -125,13 +127,7 @@ class Solver(private val equation: Equation) {
         }
     }
 
-    private fun addTotalErrors(
-        method: Method,
-        x0: Double,
-        y0: Double,
-        x: Double,
-        n: Int
-    ) {
+    private fun addTotalErrors(method: Method) {
         if (method in unstableMethods) return
         val totalErrors = ArrayList<Entry>()
         for (i in 1..n) {

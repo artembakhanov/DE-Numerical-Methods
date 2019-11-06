@@ -57,14 +57,14 @@ abstract class IterativeMethod(override val equation: Equation) :
         setDefaultValues(x0, y0, x, n)
 
         if (exactSolution == null)
-            computeExactSolution(x0, y0, n)
+            computeExactSolution()
         else
             solution.exactSolution = exactSolution
 
         if (solution.exactSolution.size != n + 1)
             throw NMArgumentException("Exact solution size does not correspond to the number of points")
 
-        computeNumericalSolution(x0, y0, n)
+        computeNumericalSolution()
 
         solution.totalError = totalError
 
@@ -77,7 +77,7 @@ abstract class IterativeMethod(override val equation: Equation) :
      * @throws NMDomainException when some points from are not in the domain of the function.
      * Please, check the text description of the equation.
      */
-    private fun computeExactSolution(x0: Double, y0: Double, n: Int) {
+    private fun computeExactSolution() {
         val const = equation.const(x0, y0)
         if (const.isNaN()) throw NMDomainException(equation.includedPointsDescription)
 
@@ -98,7 +98,7 @@ abstract class IterativeMethod(override val equation: Equation) :
      *
      * @throws NMStabilityException when the method is unstable for the step
      */
-    protected open fun computeNumericalSolution(x0: Double, y0: Double, n: Int) {
+    protected open fun computeNumericalSolution() {
         val y = solution.numericalSolution
         val x = solution.x
         y.add(y0)
