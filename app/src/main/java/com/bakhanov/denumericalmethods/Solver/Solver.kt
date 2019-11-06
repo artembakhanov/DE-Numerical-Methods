@@ -94,6 +94,7 @@ class Solver(private val equation: Equation) {
         val exactSolutionDataSet = ArrayList<Entry>()
         exactSolution = ArrayList()
         exactSolution.add(y0)
+        exactSolutionDataSet.add(Entry(x0.toFloat(), y0.toFloat()))
         for (i in 1..n) {
             val x = x0 + i * step
             val y = equation.solution(x, const)
