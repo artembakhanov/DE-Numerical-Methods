@@ -125,6 +125,7 @@ class Solver(private val equation: Equation) {
         x: Double,
         n: Int
     ) {
+        if (method in unstableMethods) return
         val totalErrors = ArrayList<Entry>()
         for (i in 1..n) {
             try {
