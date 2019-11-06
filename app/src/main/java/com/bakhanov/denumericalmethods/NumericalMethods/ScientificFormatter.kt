@@ -4,7 +4,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.DecimalFormat
 
 class ScientificFormatter : ValueFormatter() {
-    private val format = ".##########"
+    private val format = "0.0000"
 
     override fun getFormattedValue(value: Float): String {
         return if (value > 1e6)

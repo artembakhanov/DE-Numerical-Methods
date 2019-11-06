@@ -81,9 +81,12 @@ class MainActivity : AppCompatActivity() {
     fun setupPlots() {
         val charts = arrayListOf(chart_sol, chart_err, chart_total_err)
 
+        chart_err.description.text = "Local errors"
+        chart_sol.description.text = "Numerical and exact solutions"
+        chart_total_err.description.text = "Total Errors"
         for (chart in charts) {
             chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-            chart.xAxis.valueFormatter = ScientificFormatter()
+            //chart.xAxis.valueFormatter = ScientificFormatter()
             chart.axisRight.isEnabled = false
             chart.axisLeft.valueFormatter = ScientificFormatter()
             chart.marker = CurrentValueMarkerView(this, R.layout.marker_view)
