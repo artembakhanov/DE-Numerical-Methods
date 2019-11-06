@@ -1,6 +1,4 @@
-package com.bakhanov.denumericalmethods.NumericalMethods
-
-import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMException
+package com.bakhanov.denumericalmethods.numericalMethods
 
 class Equation(val function: (x: Double, y: Double) -> Double,
                val const: (x: Double, y: Double) -> Double,

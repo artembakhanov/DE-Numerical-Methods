@@ -1,8 +1,7 @@
-package com.bakhanov.denumericalmethods.Solver
+package com.bakhanov.denumericalmethods.solver
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.TextView
 
 import com.bakhanov.denumericalmethods.R

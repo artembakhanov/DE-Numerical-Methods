@@ -1,13 +1,13 @@
-package com.bakhanov.denumericalmethods.Solver
+package com.bakhanov.denumericalmethods.solver
 
-import com.bakhanov.denumericalmethods.NumericalMethods.*
-import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException
-import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMDomainException
-import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMStabilityException
-import com.bakhanov.denumericalmethods.NumericalMethods.Methods.EulerMethod
-import com.bakhanov.denumericalmethods.NumericalMethods.Methods.ImprovedEulerMethod
-import com.bakhanov.denumericalmethods.NumericalMethods.Methods.NumericalMethod
-import com.bakhanov.denumericalmethods.NumericalMethods.Methods.RungeKuttaMethod
+import com.bakhanov.denumericalmethods.numericalMethods.*
+import com.bakhanov.denumericalmethods.numericalMethods.exception.NMArgumentException
+import com.bakhanov.denumericalmethods.numericalMethods.exception.NMDomainException
+import com.bakhanov.denumericalmethods.numericalMethods.exception.NMStabilityException
+import com.bakhanov.denumericalmethods.numericalMethods.methods.EulerMethod
+import com.bakhanov.denumericalmethods.numericalMethods.methods.ImprovedEulerMethod
+import com.bakhanov.denumericalmethods.numericalMethods.methods.NumericalMethod
+import com.bakhanov.denumericalmethods.numericalMethods.methods.RungeKuttaMethod
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet

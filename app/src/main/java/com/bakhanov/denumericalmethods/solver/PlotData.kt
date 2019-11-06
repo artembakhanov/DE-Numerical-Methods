@@ -1,4 +1,4 @@
-package com.bakhanov.denumericalmethods.Solver
+package com.bakhanov.denumericalmethods.solver
 
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import java.io.Serializable

@@ -1,17 +1,17 @@
-package com.bakhanov.denumericalmethods.Activities
+package com.bakhanov.denumericalmethods.activities
 
 import  android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bakhanov.denumericalmethods.NumericalMethods.Equation
-import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException
-import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMDomainException
-import com.bakhanov.denumericalmethods.NumericalMethods.ScientificFormatter
+import com.bakhanov.denumericalmethods.numericalMethods.Equation
+import com.bakhanov.denumericalmethods.numericalMethods.exception.NMArgumentException
+import com.bakhanov.denumericalmethods.numericalMethods.exception.NMDomainException
+import com.bakhanov.denumericalmethods.numericalMethods.ScientificFormatter
 import com.bakhanov.denumericalmethods.R
-import com.bakhanov.denumericalmethods.Solver.Method
-import com.bakhanov.denumericalmethods.Solver.PlotData
-import com.bakhanov.denumericalmethods.Solver.Solver
-import com.bakhanov.denumericalmethods.Solver.CurrentValueMarkerView
+import com.bakhanov.denumericalmethods.solver.Method
+import com.bakhanov.denumericalmethods.solver.PlotData
+import com.bakhanov.denumericalmethods.solver.Solver
+import com.bakhanov.denumericalmethods.solver.CurrentValueMarkerView
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.LineData
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
         { x, y -> exp(-y / x) - x},
         { x, c -> -x * log(x + c)},
         { x, c -> x != 0.0 && x > -c },
-        { y -> y > 0 },
-        "Domain of the function: x != 0 & y > 0")
+        { _ -> true },
+        "Domain of the function: x != 0")
     private var plotData: PlotData? = null
     private var solver: Solver = Solver(eq)
 
@@ -44,7 +44,6 @@ class MainActivity : AppCompatActivity() {
                 val x = x_edit.text.toString().toDouble()
                 val y0 = y0_edit.text.toString().toDouble()
                 val n = n_edit.text.toString().toInt()
-                val sol = spinner.selectedItemPosition
                 drawFun(spinner.selectedItemPosition, x0, y0, x, n)
             } catch (e: NumberFormatException) {
                 Toast.makeText(this, "Please, enter valid numbers", Toast.LENGTH_LONG).show()
@@ -78,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         outState.putSerializable("plotdata", plotData)
     }
 
-    fun setupPlots() {
+    private fun setupPlots() {
         val charts = arrayListOf(chart_sol, chart_err, chart_total_err)
 
         chart_err.description.text = "Local errors"

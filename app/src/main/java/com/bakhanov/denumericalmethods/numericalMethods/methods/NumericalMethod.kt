@@ -1,7 +1,7 @@
-package com.bakhanov.denumericalmethods.NumericalMethods.Methods
+package com.bakhanov.denumericalmethods.numericalMethods.methods
 
-import com.bakhanov.denumericalmethods.NumericalMethods.Equation
-import com.bakhanov.denumericalmethods.NumericalMethods.Solution
+import com.bakhanov.denumericalmethods.numericalMethods.Equation
+import com.bakhanov.denumericalmethods.numericalMethods.Solution
 
 interface NumericalMethod {
     val equation: Equation

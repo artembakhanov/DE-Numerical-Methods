@@ -1,3 +1,3 @@
-package com.bakhanov.denumericalmethods.NumericalMethods.Exception
+package com.bakhanov.denumericalmethods.numericalMethods.exception
 
 class NMDomainException(override val message: String) : NMException(message)

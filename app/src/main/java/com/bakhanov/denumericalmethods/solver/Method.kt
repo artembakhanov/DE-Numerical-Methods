@@ -1,4 +1,4 @@
-package com.bakhanov.denumericalmethods.Solver
+package com.bakhanov.denumericalmethods.solver
 
 enum class Method(val methodNumber: Int) {
 

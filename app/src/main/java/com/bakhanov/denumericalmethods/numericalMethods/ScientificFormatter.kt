@@ -1,4 +1,4 @@
-package com.bakhanov.denumericalmethods.NumericalMethods
+package com.bakhanov.denumericalmethods.numericalMethods
 
 import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.DecimalFormat
