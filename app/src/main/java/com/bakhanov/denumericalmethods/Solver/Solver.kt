@@ -2,6 +2,7 @@ package com.bakhanov.denumericalmethods.Solver
 
 import com.bakhanov.denumericalmethods.NumericalMethods.*
 import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException
+import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMDomainException
 import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMStabilityException
 import com.bakhanov.denumericalmethods.NumericalMethods.Methods.EulerMethod
 import com.bakhanov.denumericalmethods.NumericalMethods.Methods.ImprovedEulerMethod
@@ -21,7 +22,6 @@ class Solver(private val equation: Equation) {
         ImprovedEulerMethod(equation),
         RungeKuttaMethod(equation)
     )
-
 
     private lateinit var exactSolution: ArrayList<Double>
     private lateinit var solutions: HashMap<Int, Solution>
@@ -81,12 +81,15 @@ class Solver(private val equation: Equation) {
      */
     private fun computeExactSolution(x0: Double, y0: Double, n: Int) {
         val const = equation.const(x0, y0)
+        if (const.isNaN()) throw NMDomainException(equation.includedPointsDescription)
+
         val exactSolutionDataSet = ArrayList<Entry>()
         exactSolution = ArrayList()
         exactSolution.add(y0)
         for (i in 1..n) {
             val x = x0 + i * step
             val y = equation.solution(x, const)
+            if (y.isNaN()) throw NMDomainException(equation.includedPointsDescription)
             exactSolution.add(y)
             exactSolutionDataSet.add(Entry(x.toFloat(), y.toFloat()))
         }
@@ -133,10 +136,9 @@ class Solver(private val equation: Equation) {
         val totalErrors = ArrayList<Entry>()
         for (i in 1..n) {
             try {
-                totalErrors.add(Entry(
-                    i.toFloat(),
-                    numMethods[method.methodNumber].compute(x0, y0, x, i).totalError.toFloat()
-                ))
+                val te = numMethods[method.methodNumber].compute(x0, y0, x, i).totalError.toFloat()
+                if (!te.isInfinite())
+                    totalErrors.add(Entry(i.toFloat(), te))
             } catch (e: NMStabilityException) {}
         }
 

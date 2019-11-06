@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         { x, y -> x * (y - pow(y, 3.0)) },
         { x, y -> (1 / pow(y, 2.0) - 1) * exp(pow(x, 2.0))},
         { x, c -> 1 / sqrt(exp(-pow(x, 2.0)) * c + 1) },
-        { true },
+        { _,_ -> true },
         { y -> y > 0 },
         "y > 0 should be held")
     private var plotData: PlotData? = null
@@ -51,17 +51,8 @@ class MainActivity : AppCompatActivity() {
             } catch (e: NMArgumentException) {
                 Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
             } catch (e: NMDomainException) {
-
+                Toast.makeText(this, e.message, Toast.LENGTH_LONG).show()
             }
-        }
-        chart_sol.setOnLongClickListener {
-            chart_sol.zoom(0f, 0f, 0f, 0f)
-            true
-        }
-
-        chart_err.setOnLongClickListener {
-            chart_err.zoom(0f, 0f, 0f, 0f)
-            true
         }
 
         val bottomSheetBehavior = BottomSheetBehavior.from(include_bottom_sheet)
@@ -106,6 +97,26 @@ class MainActivity : AppCompatActivity() {
         chart_total_err.xAxis.valueFormatter = ScientificFormatter()
         chart_total_err.axisRight.isEnabled = false
         chart_total_err.axisLeft.valueFormatter = ScientificFormatter()
+
+        chart_sol.setOnLongClickListener {
+            chart_sol.zoom(0f, 0f, 0f, 0f)
+            true
+        }
+
+        chart_err.setOnLongClickListener {
+            chart_err.zoom(0f, 0f, 0f, 0f)
+            true
+        }
+
+        chart_sol.setOnLongClickListener {
+            chart_sol.zoom(0f, 0f, 0f, 0f)
+            true
+        }
+
+        chart_total_err.setOnLongClickListener {
+            chart_err.zoom(0f, 0f, 0f, 0f)
+            true
+        }
     }
 
     private fun drawFun(methodIndex: Int = 0, x0: Double = 0.0, y0: Double = 0.0, x: Double = 0.0, n: Int = 1, recompute: Boolean = true) {

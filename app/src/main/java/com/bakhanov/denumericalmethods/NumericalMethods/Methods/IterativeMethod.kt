@@ -2,6 +2,7 @@ package com.bakhanov.denumericalmethods.NumericalMethods.Methods
 
 import com.bakhanov.denumericalmethods.NumericalMethods.Equation
 import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException
+import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMDomainException
 import com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMStabilityException
 import com.bakhanov.denumericalmethods.NumericalMethods.Solution
 import kotlin.collections.ArrayList
@@ -37,6 +38,7 @@ abstract class IterativeMethod(override val equation: Equation) :
      * @param x x value where the method finishes
      * @param n the number of steps
      * @param exactSolution predefined exact solution. Its size should be equal to n + 1
+     *
      * @throws NMArgumentException if x0 >= x0 or n <= 0 or the size of exactSolution != n + 1
      */
     override fun compute(
@@ -71,15 +73,31 @@ abstract class IterativeMethod(override val equation: Equation) :
 
     /**
      * Compute all points of exact solution.
+     *
+     * @throws NMDomainException when some points from are not in the domain of the function.
+     * Please, check the text description of the equation.
      */
     private fun computeExactSolution(x0: Double, y0: Double, n: Int) {
         val const = equation.const(x0, y0)
+        if (const.isNaN()) throw NMDomainException(equation.includedPointsDescription)
+
         solution.exactSolution.add(y0)
         for (i in 1..n) {
-            solution.exactSolution.add(equation.solution(x0 + i * step, const))
+            val next = equation.solution(x0 + i * step, const)
+            if (next.isNaN()) throw NMDomainException(equation.includedPointsDescription)
+            solution.exactSolution.add(next)
         }
     }
 
+    /**
+     * Computes numerical solution for the given initial parameters.
+     *
+     * @param x0 initial x value
+     * @param y0 initial y value
+     * @param n the number of steps
+     *
+     * @throws NMStabilityException when the method is unstable for the step
+     */
     protected open fun computeNumericalSolution(x0: Double, y0: Double, n: Int) {
         val y = solution.numericalSolution
         val x = solution.x

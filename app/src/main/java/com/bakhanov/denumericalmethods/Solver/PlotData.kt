@@ -1,6 +1,5 @@
 package com.bakhanov.denumericalmethods.Solver
 
-import com.bakhanov.denumericalmethods.Solver.Method
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import java.io.Serializable
 
