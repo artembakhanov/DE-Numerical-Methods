@@ -11,9 +11,9 @@ import com.bakhanov.denumericalmethods.R
 import com.bakhanov.denumericalmethods.Solver.Method
 import com.bakhanov.denumericalmethods.Solver.PlotData
 import com.bakhanov.denumericalmethods.Solver.Solver
+import com.bakhanov.denumericalmethods.Solver.CurrentValueMarkerView
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
@@ -79,44 +79,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setupPlots() {
-        chart_err.description.text = "Local errors"
-        chart_sol.description.text = "Numerical and exact solutions"
-        chart_total_err.description.text = "Total Errors"
+        val charts = arrayListOf(chart_sol, chart_err, chart_total_err)
 
-        chart_sol.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        chart_sol.xAxis.valueFormatter = ScientificFormatter()
-        chart_sol.axisRight.isEnabled = false
-        chart_sol.axisLeft.valueFormatter = ScientificFormatter()
-
-        chart_err.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        chart_err.xAxis.valueFormatter = ScientificFormatter()
-        chart_err.axisRight.isEnabled = false
-        chart_err.axisLeft.valueFormatter = ScientificFormatter()
-
-        chart_total_err.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        chart_total_err.xAxis.valueFormatter = ScientificFormatter()
-        chart_total_err.axisRight.isEnabled = false
-        chart_total_err.axisLeft.valueFormatter = ScientificFormatter()
-
-        chart_sol.setOnLongClickListener {
-            chart_sol.zoom(0f, 0f, 0f, 0f)
-            true
+        for (chart in charts) {
+            chart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+            chart.xAxis.valueFormatter = ScientificFormatter()
+            chart.axisRight.isEnabled = false
+            chart.axisLeft.valueFormatter = ScientificFormatter()
+            chart.marker = CurrentValueMarkerView(this, R.layout.marker_view)
         }
 
-        chart_err.setOnLongClickListener {
-            chart_err.zoom(0f, 0f, 0f, 0f)
-            true
-        }
-
-        chart_sol.setOnLongClickListener {
-            chart_sol.zoom(0f, 0f, 0f, 0f)
-            true
-        }
-
-        chart_total_err.setOnLongClickListener {
-            chart_err.zoom(0f, 0f, 0f, 0f)
-            true
-        }
+//        chart_sol.setOnLongClickListener {
+//            chart_sol.zoom(0f, 0f, 0f, 0f)
+//            true
+//        }
+//
+//        chart_err.setOnLongClickListener {
+//            chart_err.zoom(0f, 0f, 0f, 0f)
+//            true
+//        }
+//
+//        chart_total_err.setOnLongClickListener {
+//            chart_total_err.zoom(0f, 0f, 0f, 0f)
+//            true
+//        }
     }
 
     private fun drawFun(methodIndex: Int = 0, x0: Double = 0.0, y0: Double = 0.0, x: Double = 0.0, n: Int = 1, recompute: Boolean = true) {

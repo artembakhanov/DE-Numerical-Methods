@@ -138,11 +138,24 @@ class Solver(private val equation: Equation) {
             } catch (e: NMStabilityException) {}
         }
 
-        val lineDataSet = LineDataSet(totalErrors, method.mname())
-        lineDataSet.setDrawCircles(false)
-        lineDataSet.setColor(method.color(), 255)
+//        val lineDataSet = LineDataSet(totalErrors, method.mname())
+//        lineDataSet.setDrawCircles(false)
+//        lineDataSet.setColor(method.color(), 255)
 
-        totalErrorsPlotData.add(lineDataSet)
+        totalErrorsPlotData.add(composeLineDataSet(totalErrors, method.mname(), method.color()))
+    }
+
+    private fun composeLineDataSet(
+        entries: ArrayList<Entry>,
+        name: String,
+        color: Int
+    ): LineDataSet {
+        val lineDataSet = LineDataSet(entries, name)
+        lineDataSet.setDrawCircles(false)
+        lineDataSet.setColor(color, 255)
+        lineDataSet.setDrawValues(false)
+
+        return lineDataSet
     }
 
 }

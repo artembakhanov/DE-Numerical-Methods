@@ -66,6 +66,9 @@
 
         </com.github.mikephil.charting.charts.LineChart>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
