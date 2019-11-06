@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.bakhanov.denumericalmethods.NumericalMethods.Methods</OriginalElement>
+  <nodes>
+    <node x="274.0" y="830.0">com.bakhanov.denumericalmethods.NumericalMethods.Equation</node>
+    <node x="1084.0" y="301.0">com.bakhanov.denumericalmethods.Solver.Method.ALL</node>
+    <node x="979.0" y="1336.0">com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMStabilityException</node>
+    <node x="0.0" y="1509.0">com.bakhanov.denumericalmethods.NumericalMethods.EntryType</node>
+    <node x="139.0" y="1509.0">com.bakhanov.denumericalmethods.ExampleInstrumentedTest</node>
+    <node x="819.0" y="1509.0">com.bakhanov.denumericalmethods.Solver.Method.Companion</node>
+    <node x="379.0" y="1509.0">com.bakhanov.denumericalmethods.NumericalMethods.ScientificFormatter</node>
+    <node x="217.0" y="666.0">com.bakhanov.denumericalmethods.NumericalMethods.Methods.RungeKuttaMethod</node>
+    <node x="1216.0" y="301.0">com.bakhanov.denumericalmethods.Solver.Method.IMPROVED_EULER_METHOD</node>
+    <node x="1329.25" y="0.0">com.bakhanov.denumericalmethods.Solver.Method</node>
+    <node x="1613.0" y="1236.0">com.bakhanov.denumericalmethods.BuildConfig</node>
+    <node x="422.0" y="666.0">com.bakhanov.denumericalmethods.NumericalMethods.Methods.EulerMethod</node>
+    <node x="617.0" y="1509.0">com.bakhanov.denumericalmethods.ExampleUnitTest</node>
+    <node x="642.0" y="0.0">com.bakhanov.denumericalmethods.Solver.Solver</node>
+    <node x="1200.0" y="1236.0">com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMException</node>
+    <node x="1425.0" y="301.0">com.bakhanov.denumericalmethods.Solver.Method.RUNGE_KUTTA_METHOD</node>
+    <node x="0.0" y="1236.0">com.bakhanov.denumericalmethods.Solver.PlotData</node>
+    <node x="626.0" y="1236.0">com.bakhanov.denumericalmethods.Activities.MainActivity</node>
+    <node x="0.0" y="830.0">com.bakhanov.denumericalmethods.NumericalMethods.Solution</node>
+    <node x="126.0" y="0.0">com.bakhanov.denumericalmethods.NumericalMethods.Methods.NumericalMethod</node>
+    <node x="1379.0" y="1336.0">com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException</node>
+    <node x="126.0" y="123.0">com.bakhanov.denumericalmethods.NumericalMethods.Methods.IterativeMethod</node>
+    <node x="1617.0" y="301.0">com.bakhanov.denumericalmethods.Solver.Method.EULER_METHOD</node>
+    <node x="0.0" y="666.0">com.bakhanov.denumericalmethods.NumericalMethods.Methods.ImprovedEulerMethod</node>
+    <node x="1179.0" y="1336.0">com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMDomainException</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.bakhanov.denumericalmethods.NumericalMethods.Methods.ImprovedEulerMethod" target="com.bakhanov.denumericalmethods.NumericalMethods.Methods.IterativeMethod">
+      <point x="0.0" y="-59.5" />
+      <point x="98.5" y="641.0" />
+      <point x="187.16666666666663" y="641.0" />
+      <point x="-122.33333333333337" y="246.5" />
+    </edge>
+    <edge source="com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMArgumentException" target="com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMException">
+      <point x="5.6843418860808015E-14" y="-48.0" />
+      <point x="1473.5" y="1311.0" />
+      <point x="1315.0" y="1311.0" />
+      <point x="46.0" y="25.0" />
+    </edge>
+    <edge source="com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMStabilityException" target="com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMException">
+      <point x="0.0" y="-48.0" />
+      <point x="1069.0" y="1311.0" />
+      <point x="1223.0" y="1311.0" />
+      <point x="-46.0" y="25.0" />
+    </edge>
+    <edge source="com.bakhanov.denumericalmethods.Solver.Method.RUNGE_KUTTA_METHOD" target="com.bakhanov.denumericalmethods.Solver.Method">
+      <point x="0.0" y="-47.5" />
+      <point x="1511.0" y="281.0" />
+      <point x="1431.125" y="281.0" />
+      <point x="20.375" y="125.5" />
+    </edge>
+    <edge source="com.bakhanov.denumericalmethods.NumericalMethods.Methods.EulerMethod" target="com.bakhanov.denumericalmethods.NumericalMethods.Methods.IterativeMethod">
+      <point x="0.0" y="-59.5" />
+      <point x="509.5" y="641.0" />
+      <point x="431.83333333333337" y="641.0" />
+      <point x="122.33333333333337" y="246.5" />
+    </edge>
+    <edge source="com.bakhanov.denumericalmethods.NumericalMethods.Methods.RungeKuttaMethod" target="com.bakhanov.denumericalmethods.NumericalMethods.Methods.IterativeMethod">
+      <point x="0.0" y="-59.5" />
+      <point x="0.0" y="246.5" />
+    </edge>
+    <edge source="com.bakhanov.denumericalmethods.Solver.Method.IMPROVED_EULER_METHOD" target="com.bakhanov.denumericalmethods.Solver.Method">
+      <point x="0.0" y="-47.5" />
+      <point x="1310.5" y="281.0" />
+      <point x="1390.375" y="281.0" />
+      <point x="-20.375" y="125.5" />
+    </edge>
+    <edge source="com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMDomainException" target="com.bakhanov.denumericalmethods.NumericalMethods.Exception.NMException">
+      <point x="0.0" y="-48.0" />
+      <point x="0.0" y="25.0" />
+    </edge>
+    <edge source="com.bakhanov.denumericalmethods.NumericalMethods.Methods.IterativeMethod" target="com.bakhanov.denumericalmethods.NumericalMethods.Methods.NumericalMethod">
+      <point x="0.0" y="-246.5" />
+      <point x="0.0" y="36.5" />
+    </edge>
+    <edge source="com.bakhanov.denumericalmethods.Solver.Method.EULER_METHOD" target="com.bakhanov.denumericalmethods.Solver.Method">
+      <point x="0.0" y="-47.5" />
+      <point x="1680.0" y="271.0" />
+      <point x="1471.875" y="271.0" />
+      <point x="61.125" y="125.5" />
+    </edge>
+    <edge source="com.bakhanov.denumericalmethods.Solver.Method.ALL" target="com.bakhanov.denumericalmethods.Solver.Method">
+      <point x="0.0" y="-47.5" />
+      <point x="1140.0" y="271.0" />
+      <point x="1349.625" y="271.0" />
+      <point x="-61.125" y="125.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7195876288659794" x="923.4398280802292" y="453.88252148997134" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
