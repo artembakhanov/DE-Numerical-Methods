@@ -102,9 +102,7 @@ class Solver(private val equation: Equation) {
             exactSolutionDataSet.add(Entry(x.toFloat(), y.toFloat()))
         }
 
-        val solutionDataSet = LineDataSet(exactSolutionDataSet,"Exact")
-        solutionDataSet.setDrawCircles(false)
-        solutionDataSet.setColor(Method.ALL.color(), 255)
+        val solutionDataSet = composeLineDataSet(exactSolutionDataSet, "Exact", Method.ALL.color())
 
         solutionPlotData.add(solutionDataSet)
     }
@@ -112,16 +110,17 @@ class Solver(private val equation: Equation) {
     private fun addSolution(method: Method) {
         try {
             val solution = numMethods[method.methodNumber].compute(x0, y0, x, n, exactSolution)
-            val solutionDataSet = LineDataSet(solution.getEntries(EntryType.NUMERICAL), method.mname())
-            val errorDataSet = LineDataSet(solution.getEntries(EntryType.L_ERROR), method.mname())
-            solutionDataSet.setDrawCircles(false)
-            errorDataSet.setDrawCircles(false)
-            solutionDataSet.setColor(method.color(), 255)
-            errorDataSet.setColor(method.color(), 255)
+            val solutionDataSet = composeLineDataSet(
+                solution.getEntries(EntryType.NUMERICAL),
+                method.mname(),
+                method.color())
+            val errorDataSet = composeLineDataSet(
+                solution.getEntries(EntryType.L_ERROR),
+                method.mname(),
+                method.color())
 
             solutionPlotData.add(solutionDataSet)
             errorsPlotData.add(errorDataSet)
-
         } catch (e: NMStabilityException) {
             unstableMethods.add(method)
         }
@@ -137,10 +136,6 @@ class Solver(private val equation: Equation) {
                     totalErrors.add(Entry(i.toFloat(), te))
             } catch (e: NMStabilityException) {}
         }
-
-//        val lineDataSet = LineDataSet(totalErrors, method.mname())
-//        lineDataSet.setDrawCircles(false)
-//        lineDataSet.setColor(method.color(), 255)
 
         totalErrorsPlotData.add(composeLineDataSet(totalErrors, method.mname(), method.color()))
     }
