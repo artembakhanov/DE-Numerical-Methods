@@ -3,7 +3,7 @@ package com.bakhanov.denumericalmethods.numericalMethods
 /**
  * This class represents the equation y' = f(x, y) without initial values.
  *
- * @property function y = f(x, y)
+ * @property function y' = f(x, y)
  * @property solution the solution of the differential equation. c is not calculated (param)
  * @property const function that calculates constant for the solution, depending on initial values
  * @property includedPointsX predicate showing whether the points is in the x-domain
