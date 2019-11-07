@@ -11,7 +11,7 @@ import com.bakhanov.denumericalmethods.R
 import com.bakhanov.denumericalmethods.solver.Method
 import com.bakhanov.denumericalmethods.solver.PlotData
 import com.bakhanov.denumericalmethods.solver.Solver
-import com.bakhanov.denumericalmethods.solver.CurrentValueMarkerView
+import com.bakhanov.denumericalmethods.plot.CurrentValueMarkerView
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.LineData
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -24,13 +24,20 @@ import java.lang.Math.*
 import kotlin.NumberFormatException
 
 class MainActivity : AppCompatActivity() {
+//    private val eq = Equation(
+//        { x, y -> y / x - x * exp(y / x) },
+//        { x, c -> -x * log(x + c)},
+//        { x, y -> exp(-y / x) - x},
+//        { x, c -> x != 0.0},
+//        { y -> true },
+//        "Domain of the function: x != 0")
     private val eq = Equation(
-        { x, y -> y / x - x * exp(y / x) },
-        { x, y -> exp(-y / x) - x},
-        { x, c -> -x * log(x + c)},
-        { x, c -> x != 0.0 && x > -c },
-        { _ -> true },
-        "Domain of the function: x != 0")
+        { x, y -> x * (y - pow(y, 3.0)) },
+        { x, c -> 1 / sqrt(exp(-pow(x, 2.0)) * c + 1) },
+        { x, y -> (1 / pow(y, 2.0) - 1) * exp(pow(x, 2.0))},
+        { _,_ -> true },
+        { y -> y > 0 },
+        "y > 0 should be held")
     private var plotData: PlotData? = null
     private var solver: Solver = Solver(eq)
 
@@ -88,7 +95,10 @@ class MainActivity : AppCompatActivity() {
             //chart.xAxis.valueFormatter = ScientificFormatter()
             chart.axisRight.isEnabled = false
             chart.axisLeft.valueFormatter = ScientificFormatter()
-            chart.marker = CurrentValueMarkerView(this, R.layout.marker_view)
+            chart.marker = CurrentValueMarkerView(
+                this,
+                R.layout.marker_view
+            )
         }
 
 //        chart_sol.setOnLongClickListener {

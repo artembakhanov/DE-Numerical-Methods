@@ -1,4 +1,4 @@
-package com.bakhanov.denumericalmethods.solver
+package com.bakhanov.denumericalmethods.plot
 
 import android.content.Context
 import android.view.LayoutInflater

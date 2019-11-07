@@ -26,7 +26,15 @@ enum class Method(val methodNumber: Int) {
         override fun mname(): String = "All methods"
     };
 
+    /**
+     * Returns the text name of a method.
+     */
     abstract fun mname(): String
+
+    /**
+     * Returns the color (int) of a method.
+     * @return int representation of color (without alpha)
+     */
     abstract fun color(): Int
 
     companion object {

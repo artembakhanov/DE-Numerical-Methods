@@ -14,6 +14,8 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 
 /**
  * This class unifies all the iterative methods.
+ *
+ * @property equation equation that needs to be solved
  */
 class Solver(private val equation: Equation) {
     private var x0: Double = 0.0
