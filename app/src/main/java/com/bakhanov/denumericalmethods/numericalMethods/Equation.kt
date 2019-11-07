@@ -15,5 +15,4 @@ class Equation(val function: (x: Double, y: Double) -> Double,
                val const: (x: Double, y: Double) -> Double,
                val includedPointsX: (x: Double, c: Double) -> Boolean,
                val includedPointsY: (y: Double) -> Boolean,
-               val includedPointsDescription: String = "x and y should be in the domain") {
-}
+               val includedPointsDescription: String = "x and y should be in the domain")

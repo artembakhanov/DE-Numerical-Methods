@@ -24,20 +24,13 @@ import java.lang.Math.*
 import kotlin.NumberFormatException
 
 class MainActivity : AppCompatActivity() {
-//    private val eq = Equation(
-//        { x, y -> y / x - x * exp(y / x) },
-//        { x, c -> -x * log(x + c)},
-//        { x, y -> exp(-y / x) - x},
-//        { x, c -> x != 0.0},
-//        { y -> true },
-//        "Domain of the function: x != 0")
     private val eq = Equation(
-        { x, y -> x * (y - pow(y, 3.0)) },
-        { x, c -> 1 / sqrt(exp(-pow(x, 2.0)) * c + 1) },
-        { x, y -> (1 / pow(y, 2.0) - 1) * exp(pow(x, 2.0))},
-        { _,_ -> true },
-        { y -> y > 0 },
-        "y > 0 should be held")
+        { x, y -> y / x - x * exp(y / x) },
+        { x, c -> -x * log(x + c)},
+        { x, y -> exp(-y / x) - x},
+        { x, c -> x != 0.0},
+        { y -> true },
+        "Domain of the function: x != 0")
     private var plotData: PlotData? = null
     private var solver: Solver = Solver(eq)
 
