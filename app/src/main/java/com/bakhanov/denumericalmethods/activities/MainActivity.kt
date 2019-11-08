@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
                 val x = x_edit.text.toString().toDouble()
                 val y0 = y0_edit.text.toString().toDouble()
                 val n = n_edit.text.toString().toInt()
-                drawFun(spinner.selectedItemPosition, x0, y0, x, n)
+                val n0 = n0_edit.text.toString().toInt()
+                drawFun(spinner.selectedItemPosition, x0, y0, x, n, n0)
             } catch (e: NumberFormatException) {
                 Toast.makeText(this, "Please, enter valid numbers", Toast.LENGTH_LONG).show()
             } catch (e: NMArgumentException) {
@@ -93,7 +94,6 @@ class MainActivity : AppCompatActivity() {
                 R.layout.marker_view
             )
         }
-
 //        chart_sol.setOnLongClickListener {
 //            chart_sol.zoom(0f, 0f, 0f, 0f)
 //            true
@@ -110,9 +110,17 @@ class MainActivity : AppCompatActivity() {
 //        }
     }
 
-    private fun drawFun(methodIndex: Int = 0, x0: Double = 0.0, y0: Double = 0.0, x: Double = 0.0, n: Int = 1, recompute: Boolean = true) {
+    private fun drawFun(
+        methodIndex: Int = 0,
+        x0: Double = 0.0,
+        y0: Double = 0.0,
+        x: Double = 0.0,
+        n: Int = 1,
+        n0: Int = 1,
+        recompute: Boolean = true
+    ) {
         if (recompute)
-            plotData = solver.generateSolutionPlotData(Method.from(methodIndex), x0, y0, x, n)
+            plotData = solver.generateSolutionPlotData(Method.from(methodIndex), x0, y0, x, n, n0)
 
         chart_sol.data = LineData(plotData?.solutionPlotData)
         chart_err.data = LineData(plotData?.errorsPlotData)

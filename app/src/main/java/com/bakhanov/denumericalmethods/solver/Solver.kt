@@ -5,10 +5,10 @@ import com.bakhanov.denumericalmethods.numericalMethods.exception.NMArgumentExce
 import com.bakhanov.denumericalmethods.numericalMethods.exception.NMDomainException
 import com.bakhanov.denumericalmethods.numericalMethods.exception.NMException
 import com.bakhanov.denumericalmethods.numericalMethods.exception.NMStabilityException
-import com.bakhanov.denumericalmethods.numericalMethods.methods.EulerMethod
-import com.bakhanov.denumericalmethods.numericalMethods.methods.ImprovedEulerMethod
-import com.bakhanov.denumericalmethods.numericalMethods.methods.NumericalMethod
-import com.bakhanov.denumericalmethods.numericalMethods.methods.RungeKuttaMethod
+import com.bakhanov.denumericalmethods.numericalMethods.methodsDE.EulerMethod
+import com.bakhanov.denumericalmethods.numericalMethods.methodsDE.ImprovedEulerMethod
+import com.bakhanov.denumericalmethods.numericalMethods.methodsDE.NumericalMethod
+import com.bakhanov.denumericalmethods.numericalMethods.methodsDE.RungeKuttaMethod
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
@@ -19,6 +19,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
  * @property equation equation that needs to be solved
  */
 class Solver(private val equation: Equation) {
+    private var n0: Int = 1
     private var x0: Double = 0.0
     private var y0: Double = 0.0
     private var x: Double = 0.0
@@ -43,12 +44,16 @@ class Solver(private val equation: Equation) {
      * @param method the integer value of method
      * @return plot data of the solution
      */
-    fun generateSolutionPlotData(method: Method, x0: Double, y0: Double, x: Double, n: Int): PlotData {
+    fun generateSolutionPlotData(method: Method, x0: Double, y0: Double, x: Double, n: Int, n0: Int = 1): PlotData {
         if (x0 >= x) throw NMArgumentException(
-            "The initial x value should be less than the final one."
+            "The initial x value should be less than the final one"
         )
         if (n <= 0) throw NMArgumentException(
             "The number of steps should be greater than 0"
+        )
+
+        if (n0 > n || n0 < 1) throw NMArgumentException (
+            "The number of steps (n0) should be greater than 0 and less than n"
         )
         step = (x - x0) / n
         unstableMethods = ArrayList()
@@ -60,6 +65,7 @@ class Solver(private val equation: Equation) {
         this.y0 = y0
         this.n = n
         this.x = x
+        this.n0 = n0
 
         computeExactSolution()
 
@@ -122,7 +128,6 @@ class Solver(private val equation: Equation) {
                 solution.getEntries(EntryType.L_ERROR),
                 method.mname(),
                 method.color())
-
             solutionPlotData.add(solutionDataSet)
             errorsPlotData.add(errorDataSet)
         } catch (e: NMStabilityException) {
@@ -133,7 +138,7 @@ class Solver(private val equation: Equation) {
     private fun addTotalErrors(method: Method) {
         if (method in unstableMethods) return
         val totalErrors = ArrayList<Entry>()
-        for (i in 1..n) {
+        for (i in n0..n) {
             try {
                 val te = numMethods[method.methodNumber].compute(x0, y0, x, i).totalError.toFloat()
                 if (!te.isInfinite())

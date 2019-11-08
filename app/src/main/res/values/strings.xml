@@ -11,6 +11,7 @@
     <string name="the_final_x">The final X</string>
     <string name="the_number_of_steps">The number of steps</string>
     <string name="methods">Methods</string>
+    <string name="n0">N0</string>
     <string-array name="numerical_methods">
         <item>Euler Method</item>
         <item>Improved Euler Method</item>

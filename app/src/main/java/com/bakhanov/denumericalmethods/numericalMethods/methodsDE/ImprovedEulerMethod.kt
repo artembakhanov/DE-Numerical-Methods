@@ -1,4 +1,4 @@
-package com.bakhanov.denumericalmethods.numericalMethods.methods
+package com.bakhanov.denumericalmethods.numericalMethods.methodsDE
 
 import com.bakhanov.denumericalmethods.numericalMethods.Equation
 
