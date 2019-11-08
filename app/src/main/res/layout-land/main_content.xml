@@ -47,16 +47,16 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart_total_err"
+            android:id="@+id/chart_err"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/chart_err"
+            app:layout_constraintBottom_toTopOf="@+id/chart_total_err"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart_err"
+            android:id="@+id/chart_total_err"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,9 +66,5 @@
 
         </com.github.mikephil.charting.charts.LineChart>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <TextView
-        android:id="@+id/tvContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
