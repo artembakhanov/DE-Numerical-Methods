@@ -106,6 +106,9 @@ abstract class IterativeMethod(override val equation: Equation) :
 
         for (i in 1..n) {
             val next = next(x[i - 1], y[i - 1])
+            if (equation.function(x[i - 1], y[i - 1]).isNaN()) {
+                throw NMDomainException(equation.includedPointsDescription)
+            }
             if (next.isNaN())
                 throw NMStabilityException(
                     "This method seems to be unstable for the given parameters"

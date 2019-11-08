@@ -3,6 +3,7 @@ package com.bakhanov.denumericalmethods.solver
 import com.bakhanov.denumericalmethods.numericalMethods.*
 import com.bakhanov.denumericalmethods.numericalMethods.exception.NMArgumentException
 import com.bakhanov.denumericalmethods.numericalMethods.exception.NMDomainException
+import com.bakhanov.denumericalmethods.numericalMethods.exception.NMException
 import com.bakhanov.denumericalmethods.numericalMethods.exception.NMStabilityException
 import com.bakhanov.denumericalmethods.numericalMethods.methods.EulerMethod
 import com.bakhanov.denumericalmethods.numericalMethods.methods.ImprovedEulerMethod
@@ -137,7 +138,7 @@ class Solver(private val equation: Equation) {
                 val te = numMethods[method.methodNumber].compute(x0, y0, x, i).totalError.toFloat()
                 if (!te.isInfinite())
                     totalErrors.add(Entry(i.toFloat(), te))
-            } catch (e: NMStabilityException) {}
+            } catch (e: NMException) {}
         }
 
         totalErrorsPlotData.add(composeLineDataSet(totalErrors, method.mname(), method.color()))
