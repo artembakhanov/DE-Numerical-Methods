@@ -126,11 +126,11 @@ abstract class IterativeMethod(override val equation: Equation) :
      */
     private fun computeErrors(i: Int) {
         computeGlobalError(i)
-        computeLocalError(i)
+        computeLocalAndTotalErrors(i)
     }
 
     /**
-     * Computes global errors.
+     * Computes global error on a given step.
      */
     private fun computeGlobalError(i: Int) {
         solution.globalErrors.add(solution.exactSolution[i] - solution.numericalSolution[i])
@@ -139,9 +139,10 @@ abstract class IterativeMethod(override val equation: Equation) :
     }
 
     /**
-     * Computes local errors (global error without accumulated global errors on previous steps).
+     * Computes local error (global error without accumulated global errors on previous steps)git
+     * on a given step.
      */
-    protected open fun computeLocalError(i: Int) {
+    protected open fun computeLocalAndTotalErrors(i: Int) {
         val y = solution.exactSolution
         val x = solution.x
         val localSol = next(x[i - 1], y[i - 1])
