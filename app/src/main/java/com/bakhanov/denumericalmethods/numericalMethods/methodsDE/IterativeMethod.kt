@@ -117,6 +117,8 @@ abstract class IterativeMethod(override val equation: Equation) :
             y.add(next)
             computeErrors(i)
         }
+
+        totalError = solution.globalErrors[solution.globalErrors.size - 1].absoluteValue
     }
 
     /**
